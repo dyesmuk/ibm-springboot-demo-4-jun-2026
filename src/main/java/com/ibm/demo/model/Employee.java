@@ -11,6 +11,9 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+//validations constraints  
+//https://jakarta.ee/specifications/bean-validation/3.0/apidocs/jakarta/validation/constraints/package-summary
+
 @Document(collection = "employees")
 public class Employee {
 
@@ -93,4 +96,3 @@ public class Employee {
 	}
 
 }
-
