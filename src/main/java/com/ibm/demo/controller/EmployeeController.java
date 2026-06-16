@@ -4,7 +4,9 @@ import java.util.List;
 
 import jakarta.validation.Valid;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,16 +31,26 @@ public class EmployeeController {
 		this.employeeService = employeeService;
 	}
 
-//    http://localhost:8080/api/v1/employees 
+//    http://localhost:8090/api/v1/employees 
 
 	@GetMapping
 	public List<Employee> getAllEmployees() {
 		return employeeService.getAllEmployees();
 	}
 
+//	@GetMapping("/{id}")
+//	public Employee getEmployeeById(@PathVariable String id) {
+//		return employeeService.getEmployeeById(id);
+//	}
+
 	@GetMapping("/{id}")
-	public Employee getEmployeeById(@PathVariable String id) {
-		return employeeService.getEmployeeById(id);
+	public ResponseEntity<Employee> getEmployeeById(@PathVariable String id) {
+		Employee emp = employeeService.getEmployeeById(id);
+		HttpStatus status = HttpStatus.OK;
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("message", "Employee with the id " + id + " found successfully.");
+		ResponseEntity<Employee> response = new ResponseEntity<Employee>(emp, headers, status);
+		return response;
 	}
 
 	@GetMapping("/email/{email}")

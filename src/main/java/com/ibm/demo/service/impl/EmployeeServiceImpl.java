@@ -20,12 +20,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public List<Employee> getAllEmployees() {
+	public List<Employee> getAllEmployees() {		
 		return employeeRepository.findAll();
 	}
 
 	@Override
 	public Employee getEmployeeById(String id) {
+//		employeeRepository.findById(id).get(); //
 		return employeeRepository.findById(id)
 				.orElseThrow(() -> new EmployeeNotFoundException("Employee not found with id: " + id));
 	}

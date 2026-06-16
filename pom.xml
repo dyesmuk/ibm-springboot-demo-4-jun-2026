@@ -33,7 +33,6 @@
 			<artifactId>spring-boot-starter-validation</artifactId>
 		</dependency>
 
-
 		<!-- === DATA ACCESS === -->
 
 		<!-- MongoDB -->

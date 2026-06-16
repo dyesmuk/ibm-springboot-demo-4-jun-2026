@@ -15,5 +15,7 @@ public interface EmployeeRepository extends MongoRepository<Employee, String> {
 
     List<Employee> findByFirstNameIgnoreCase(String firstName);
 
+//    List<Employee> findByPhone(long phone);
+
     boolean existsByEmail(String email);
 }
