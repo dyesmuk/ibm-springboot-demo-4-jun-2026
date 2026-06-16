@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import com.ibm.demo.model.Employee;
 import com.ibm.demo.service.EmployeeService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/v1/employees")
 public class EmployeeController {
@@ -41,7 +43,7 @@ public class EmployeeController {
 
 //	// ResponseEntity object with business data, headers and status -
 //	@GetMapping("/{id}")
-//	public ResponseEntity<Employee> getEmployeeById(@PathVariable String id) {
+//	public ResponseEntity<Em ployee> getEmployeeById(@PathVariable String id) {
 //		Employee emp = employeeService.getEmployeeById(id);
 //		HttpStatus status = HttpStatus.OK;
 //		HttpHeaders headers = new HttpHeaders();
@@ -63,7 +65,7 @@ public class EmployeeController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Employee> createEmployee(@RequestBody Employee employee) {
+	public ResponseEntity<Employee> createEmployee(@Valid @RequestBody Employee employee) {
 
 		Employee savedEmployee = employeeService.createEmployee(employee);
 
@@ -71,7 +73,7 @@ public class EmployeeController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Employee> updateEmployee(@PathVariable String id, @RequestBody Employee employee) {
+	public ResponseEntity<Employee> updateEmployee(@PathVariable String id, @Valid @RequestBody Employee employee) {
 
 		return ResponseEntity.ok(employeeService.updateEmployee(id, employee));
 	}
