@@ -11,6 +11,7 @@ import com.ibm.demo.dto.employee.EmployeeResponse;
 import com.ibm.demo.exception.EmailAlreadyExistsException;
 import com.ibm.demo.exception.EmployeeNotFoundException;
 import com.ibm.demo.mapper.EmployeeMapper;
+import com.ibm.demo.model.Department;
 import com.ibm.demo.model.Employee;
 import com.ibm.demo.repository.EmployeeRepository;
 import com.ibm.demo.service.EmployeeService;
@@ -18,90 +19,76 @@ import com.ibm.demo.service.EmployeeService;
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
-    private final EmployeeRepository employeeRepository;
+	private final EmployeeRepository employeeRepository;
 
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository) {
-        this.employeeRepository = employeeRepository;
-    }
+	public EmployeeServiceImpl(EmployeeRepository employeeRepository) {
+		this.employeeRepository = employeeRepository;
+	}
 
-    @Override
-    public List<EmployeeResponse> getAllEmployees() {
-        return employeeRepository.findAll()
-                .stream()
-                .map(EmployeeMapper::toResponseDTO)
-                .collect(Collectors.toList());
-    }
+	@Override
+	public List<EmployeeResponse> getAllEmployees() {
+		return employeeRepository.findAll().stream().map(EmployeeMapper::toResponseDTO).collect(Collectors.toList());
+	}
 
-    @Override
-    public EmployeeResponse getEmployeeById(String id) {
-        Employee employee = employeeRepository.findById(id)
-                .orElseThrow(() -> new EmployeeNotFoundException(
-                        "Employee not found with id: " + id));
-        return EmployeeMapper.toResponseDTO(employee);
-    }
+	@Override
+	public EmployeeResponse getEmployeeById(String id) {
 
-    @Override
-    public EmployeeResponse getEmployeeByEmail(String email) {
-        Employee employee = employeeRepository.findByEmail(email.toLowerCase())
-                .orElseThrow(() -> new EmployeeNotFoundException(
-                        "Employee not found with email: " + email));
-        return EmployeeMapper.toResponseDTO(employee);
-    }
+		Employee employee = employeeRepository.findById(id)
+				.orElseThrow(() -> new EmployeeNotFoundException("Employee not found with id: " + id));
+		return EmployeeMapper.toResponseDTO(employee);
+	}
 
-    @Override
-    public List<EmployeeResponse> getEmployeesByFirstName(String firstName) {
-        List<Employee> employees = employeeRepository
-                .findByFirstNameIgnoreCase(firstName.trim());
-        if (employees.isEmpty()) {
-            throw new EmployeeNotFoundException(
-                    "No employees found with first name: " + firstName);
-        }
-        return employees.stream()
-                .map(EmployeeMapper::toResponseDTO)
-                .collect(Collectors.toList());
-    }
+	@Override
+	public EmployeeResponse getEmployeeByEmail(String email) {
+		Employee employee = employeeRepository.findByEmail(email.toLowerCase())
+				.orElseThrow(() -> new EmployeeNotFoundException("Employee not found with email: " + email));
+		return EmployeeMapper.toResponseDTO(employee);
+	}
 
-    @Override
-    public EmployeeResponse createEmployee(EmployeeRequest requestDTO) {
-        String normalizedEmail = requestDTO.getEmail().toLowerCase();
-        if (employeeRepository.existsByEmail(normalizedEmail)) {
-            throw new EmailAlreadyExistsException(
-                    "An employee with email " + normalizedEmail + " already exists");
-        }
-        Employee employee = EmployeeMapper.toEntity(requestDTO);
-        Employee saved = employeeRepository.save(employee);
-        return EmployeeMapper.toResponseDTO(saved);
-    }
+	@Override
+	public List<EmployeeResponse> getEmployeesByFirstName(String firstName) {
+		List<Employee> employees = employeeRepository.findByFirstNameIgnoreCase(firstName.trim());
+		if (employees.isEmpty()) {
+			throw new EmployeeNotFoundException("No employees found with first name: " + firstName);
+		}
+		return employees.stream().map(EmployeeMapper::toResponseDTO).collect(Collectors.toList());
+	}
 
-    @Override
-    public EmployeeResponse updateEmployee(String id, EmployeeRequest requestDTO) {
-        Employee existing = employeeRepository.findById(id)
-                .orElseThrow(() -> new EmployeeNotFoundException(
-                        "Employee not found with id: " + id));
+	@Override
+	public EmployeeResponse createEmployee(EmployeeRequest requestDTO) {
+		String normalizedEmail = requestDTO.getEmail().toLowerCase();
+		if (employeeRepository.existsByEmail(normalizedEmail)) {
+			throw new EmailAlreadyExistsException("An employee with email " + normalizedEmail + " already exists");
+		}
+		Employee employee = EmployeeMapper.toEntity(requestDTO);
+		Employee saved = employeeRepository.save(employee);
+		return EmployeeMapper.toResponseDTO(saved);
+	}
 
-        String normalizedEmail = requestDTO.getEmail().toLowerCase();
+	@Override
+	public EmployeeResponse updateEmployee(String id, EmployeeRequest requestDTO) {
+		Employee existing = employeeRepository.findById(id)
+				.orElseThrow(() -> new EmployeeNotFoundException("Employee not found with id: " + id));
 
-        if (!existing.getEmail().equals(normalizedEmail)
-                && employeeRepository.existsByEmail(normalizedEmail)) {
-            throw new EmailAlreadyExistsException(
-                    "An employee with email " + normalizedEmail + " already exists");
-        }
+		String normalizedEmail = requestDTO.getEmail().toLowerCase();
 
-        EmployeeMapper.updateEntity(existing, requestDTO);
-        Employee updated = employeeRepository.save(existing);
-        return EmployeeMapper.toResponseDTO(updated);
-    }
+		if (!existing.getEmail().equals(normalizedEmail) && employeeRepository.existsByEmail(normalizedEmail)) {
+			throw new EmailAlreadyExistsException("An employee with email " + normalizedEmail + " already exists");
+		}
 
-    @Override
-    public void deleteEmployee(String id) {
-        if (!employeeRepository.existsById(id)) {
-            throw new EmployeeNotFoundException(
-                    "Employee not found with id: " + id);
-        }
-        employeeRepository.deleteById(id);
-    }
+		EmployeeMapper.updateEntity(existing, requestDTO);
+		Employee updated = employeeRepository.save(existing);
+		return EmployeeMapper.toResponseDTO(updated);
+	}
+
+	@Override
+	public void deleteEmployee(String id) {
+		if (!employeeRepository.existsById(id)) {
+			throw new EmployeeNotFoundException("Employee not found with id: " + id);
+		}
+		employeeRepository.deleteById(id);
+	}
 }
-
 
 //package com.ibm.demo.service.impl;
 //

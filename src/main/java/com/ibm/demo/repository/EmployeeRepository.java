@@ -4,10 +4,11 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.stereotype.Repository;
 
 import com.ibm.demo.model.Employee;
-
+@RepositoryRestResource(exported = false)
 @Repository
 public interface EmployeeRepository extends MongoRepository<Employee, String> {
 

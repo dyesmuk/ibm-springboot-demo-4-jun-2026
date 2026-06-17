@@ -56,6 +56,18 @@ public class GlobalExceptionHandler {
 		body.put("message", message);
 		return ResponseEntity.status(status).body(body);
 	}
+
+	@ExceptionHandler(DepartmentNotFoundException.class)
+	public ResponseEntity<Map<String, Object>> handleDepartmentNotFound(DepartmentNotFoundException ex) {
+
+		return buildResponse(HttpStatus.NOT_FOUND, ex.getMessage());
+	}
+
+	@ExceptionHandler(DepartmentAlreadyExistsException.class)
+	public ResponseEntity<Map<String, Object>> handleDepartmentConflict(DepartmentAlreadyExistsException ex) {
+
+		return buildResponse(HttpStatus.CONFLICT, ex.getMessage());
+	}
 }
 
 //package com.ibm.demo.exception;
