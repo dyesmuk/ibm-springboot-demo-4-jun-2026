@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-// use Lombok only in this class 
+// use Lombok only in this entity  
 
 @Document(collection = "departments")
 public class Department {
