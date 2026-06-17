@@ -11,11 +11,39 @@ import com.ibm.demo.model.Employee;
 @Repository
 public interface EmployeeRepository extends MongoRepository<Employee, String> {
 
-    Optional<Employee> findByEmail(String email);
+	Optional<Employee> findByEmail(String email);
 
-    List<Employee> findByFirstNameIgnoreCase(String firstName);
+	List<Employee> findByFirstNameIgnoreCase(String firstName);
 
-//    List<Employee> findByPhone(long phone);
+	boolean existsByEmail(String email);
 
-    boolean existsByEmail(String email);
+	List<Employee> findByDepartmentId(String departmentId);
+
+	boolean existsByDepartmentId(String departmentId);
+
+	List<Employee> findByProjectIdsContaining(String projectId);
+
+	boolean existsByProjectIdsContaining(String projectId);
 }
+
+//package com.ibm.demo.repository;
+//
+//import java.util.List;
+//import java.util.Optional;
+//
+//import org.springframework.data.mongodb.repository.MongoRepository;
+//import org.springframework.stereotype.Repository;
+//
+//import com.ibm.demo.model.Employee;
+//
+//@Repository
+//public interface EmployeeRepository extends MongoRepository<Employee, String> {
+//
+//    Optional<Employee> findByEmail(String email);
+//
+//    List<Employee> findByFirstNameIgnoreCase(String firstName);
+//
+////    List<Employee> findByPhone(long phone);
+//
+//    boolean existsByEmail(String email);
+//}

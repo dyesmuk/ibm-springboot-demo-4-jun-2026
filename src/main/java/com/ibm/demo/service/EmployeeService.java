@@ -2,22 +2,46 @@ package com.ibm.demo.service;
 
 import java.util.List;
 
-import com.ibm.demo.model.Employee;
+import com.ibm.demo.dto.employee.EmployeeRequest;
+import com.ibm.demo.dto.employee.EmployeeResponse;
 
 public interface EmployeeService {
 
-	public abstract List<Employee> getAllEmployees();
+	List<EmployeeResponse> getAllEmployees();
 
-	public abstract Employee getEmployeeById(String id);
+	EmployeeResponse getEmployeeById(String id);
 
-	public abstract Employee getEmployeeByEmail(String email);
+	EmployeeResponse getEmployeeByEmail(String email);
 
-	public abstract List<Employee> getEmployeesByFirstName(String firstName);
+	List<EmployeeResponse> getEmployeesByFirstName(String firstName);
 
-	public abstract Employee createEmployee(Employee employee);
+	EmployeeResponse createEmployee(EmployeeRequest requestDTO);
 
-	public abstract Employee updateEmployee(String id, Employee employee);
+	EmployeeResponse updateEmployee(String id, EmployeeRequest requestDTO);
 
-	public abstract void deleteEmployee(String id);
-
+	void deleteEmployee(String id);
 }
+
+//package com.ibm.demo.service;
+//
+//import java.util.List;
+//
+//import com.ibm.demo.model.Employee;
+//
+//public interface EmployeeService {
+//
+//	public abstract List<Employee> getAllEmployees();
+//
+//	public abstract Employee getEmployeeById(String id);
+//
+//	public abstract Employee getEmployeeByEmail(String email);
+//
+//	public abstract List<Employee> getEmployeesByFirstName(String firstName);
+//
+//	public abstract Employee createEmployee(Employee employee);
+//
+//	public abstract Employee updateEmployee(String id, Employee employee);
+//
+//	public abstract void deleteEmployee(String id);
+//
+//}
