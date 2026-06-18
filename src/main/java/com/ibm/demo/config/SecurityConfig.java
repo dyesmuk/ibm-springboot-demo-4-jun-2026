@@ -2,6 +2,8 @@ package com.ibm.demo.config;
 
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -32,6 +34,8 @@ import jakarta.servlet.http.HttpServletResponse;
 @EnableWebSecurity
 public class SecurityConfig {
 
+	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
+
 	private final JwtUtil jwtUtil;
 
 	public SecurityConfig(JwtUtil jwtUtil) {
@@ -42,12 +46,15 @@ public class SecurityConfig {
 	// user / user123 → ROLE_USER (GET only)
 	@Bean
 	public UserDetailsService userDetailsService(PasswordEncoder encoder) {
+		LOG.info("Step 3 - userDetailsService");
 		return new InMemoryUserDetailsManager(
 				User.withUsername("admin").password(encoder.encode("admin123")).roles("ADMIN").build(),
 				User.withUsername("user").password(encoder.encode("user123")).roles("USER").build());
 	}
 
 	private OncePerRequestFilter jwtFilter(UserDetailsService uds) {
+		LOG.info("Step 5 - jwtFilter");
+
 		return new OncePerRequestFilter() {
 			@Override
 			protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
@@ -71,6 +78,7 @@ public class SecurityConfig {
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http, UserDetailsService uds) throws Exception {
+		LOG.info("Step 4 - securityFilterChain");
 		http.csrf(csrf -> csrf.disable())
 				.sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeHttpRequests(auth -> auth
@@ -85,11 +93,13 @@ public class SecurityConfig {
 
 	@Bean
 	public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+		LOG.info("Step 1 - authenticationManager");
 		return config.getAuthenticationManager();
 	}
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
+		LOG.info("Step 2 - passwordEncoder");
 		return new BCryptPasswordEncoder();
 	}
 }

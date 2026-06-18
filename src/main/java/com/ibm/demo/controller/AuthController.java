@@ -2,6 +2,8 @@ package com.ibm.demo.controller;
 
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,6 +18,8 @@ import com.ibm.demo.security.JwtUtil;
 @RequestMapping("/api/v1/auth")
 public class AuthController {
 
+	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
+
 	private final AuthenticationManager authManager;
 	private final JwtUtil jwtUtil;
 
@@ -29,8 +33,8 @@ public class AuthController {
 	// Returns: { "token": "eyJ..." }
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody Map<String, String> body) {
+		LOG.info("Step 6 - login");
 		authManager.authenticate(new UsernamePasswordAuthenticationToken(body.get("username"), body.get("password")));
-
 		String token = jwtUtil.generateToken(body.get("username"));
 		return ResponseEntity.ok(Map.of("token", token));
 	}
