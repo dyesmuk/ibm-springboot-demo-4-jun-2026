@@ -82,7 +82,7 @@ public class SecurityConfig {
 		http.csrf(csrf -> csrf.disable())
 				.sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeHttpRequests(auth -> auth
-						.requestMatchers("/api/v1/auth/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+						.requestMatchers("/api/v1/auth/**", "/swagger-ui/**", "/v3/api-docs/**", "/hello").permitAll()
 						.requestMatchers(HttpMethod.GET, "/api/v1/**").authenticated()
 						.requestMatchers(HttpMethod.POST, "/api/v1/**").hasRole("ADMIN")
 						.requestMatchers(HttpMethod.PUT, "/api/v1/**").hasRole("ADMIN")
