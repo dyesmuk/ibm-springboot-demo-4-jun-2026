@@ -40,6 +40,7 @@
 			<artifactId>spring-boot-starter-validation</artifactId>
 		</dependency>
 
+
 		<!-- === DATA ACCESS === -->
 
 		<!-- MongoDB -->
@@ -120,6 +121,25 @@
 			<artifactId>jjwt-jackson</artifactId>
 			<version>0.12.6</version>
 			<scope>runtime</scope>
+		</dependency>
+
+		<!-- Spring JMS — the JMS API + Spring integration -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jms</artifactId>
+		</dependency>
+
+		<!-- Embedded ActiveMQ Artemis broker — runs inside the app, no
+		installation -->
+		<dependency>
+			<groupId>org.apache.activemq</groupId>
+			<artifactId>artemis-jakarta-server</artifactId>
+		</dependency>
+
+		<!-- Artemis JMS client — connects your app to the embedded broker -->
+		<dependency>
+			<groupId>org.apache.activemq</groupId>
+			<artifactId>artemis-jakarta-client</artifactId>
 		</dependency>
 
 	</dependencies>
